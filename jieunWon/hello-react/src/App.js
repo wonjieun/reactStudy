@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
+import MyName from './MyName';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <div>
-          Hello
-        </div>
-        <div>
-          Bye
-        </div>
-      </div>
+      <MyName />
     );
   }
 }
