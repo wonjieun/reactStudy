@@ -1,8 +1,44 @@
 import React, { Component } from 'react';
 
+const Problematic = () => {
+    throw (new Error('bug is coming!'));
+    return (
+        <div>
+
+        </div>
+    );
+};
+
 class Counter extends Component {
     state = {
         number: 0
+    }
+
+    constructor(props) {
+        super(props);
+        console.log('constructor');
+    }
+
+    componentWillMount() {
+        console.log('componentWillMount (deprecated)');
+    }
+
+    componentDidMount() {
+        console.log('componentDidMount');
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate');
+        if (nextState.number % 5 === 0) return false;
+        return true;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log('componentWillUpdate');
+    }
+
+    componentDidUpdate(preProps, prevState) {
+        console.log('componentDidUpdate');
     }
 
     // () =>
@@ -38,14 +74,23 @@ class Counter extends Component {
         });
     }
 
+    componentDidCatch(error, info) {
+        this.setState({
+            error: true
+        })
+    }
+
     //이벤트 설정을 한 부분
     render() {
+        if (this.state.error) return (<h1>error!</h1>);
+
         return (
             <div>
                 <h1>카운터</h1>
                 <div>값: {this.state.number}</div>
                 {/* <button onclick="alert('hello');">Click Me</button> */}
                 {/* 1. camelCase 2. 메소드를 호출하지 않기 ()X */}
+                { this.state.number === 4 && <Problematic /> }
                 <button onClick={this.handleIncrease}>+</button>
                 <button onClick={this.handleDecrease}>-</button>
             </div>
