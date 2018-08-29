@@ -7,42 +7,52 @@ class App extends Component {
   state = {
     value: '테스트',
     todo: []
-  }
+  };
 
   updateState = (e) => {
-    // console.log(e.target);
     this.setState({value: e.target.value});
   }
 
   updateKey = (e) => {
-    // console.log(e.target);
     this.setState({value: e.target.value});
   }
 
   updateItem = (e) => {
     // console.log(this.state.todo.length);
-    const { value, todo } = this.state;
+    // const { value, todo } = this.state;
     this.setState({
-      value: '',
-      todo: todo.concat({
-        id: this.state.todo.length,
-        text: value
-      })
-    });
+      todo: this.state.todo.concat(this.state.value),
+      value: ''
+      // value: '',
+      // todo: todo.concat({
+      //   id: this.state.todo.length,
+      //   text: value
+      // })
+    }); 
   }
 
   componentDidUpdate(){
-    console.log(this.state.todo[this.state.todo.length-1].text);
+    //console.log('DidUpdate: '+this.state.todo[this.state.todo.length-1].text);
   }
 
   render() {
+
+    const todoList = this.state.todo.map(
+      (value, id) => (<li key={id}>{value}</li>)
+    );
+
     return (
-      <Form
-        value={this.state.value}
-        onChange={this.updateState}
-        onKeyPress={this.updateKey}
-        onCreate={this.updateItem}
-      />
+      <div>
+        <Form
+          value={this.state.value}
+          onChange={this.updateState}
+          onCreate={this.updateItem}
+          onKeyPress={this.updateKey}
+        />
+        <ul>
+          { todoList }
+        </ul>
+      </div>
       // <TodoListTemplate form={<Form/>}>
       //    <TodoItemList />
       // </TodoListTemplate>
